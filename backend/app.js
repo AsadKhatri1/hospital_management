@@ -5,6 +5,7 @@ import cookieParser from "cookie-parser";
 import fileUpload from "express-fileupload";
 import { connectDB } from "./db/db.js";
 import messageRouter from "./routes/message.js";
+import userRouter from "./routes/user.js";
 
 const app = express();
 
@@ -27,5 +28,7 @@ app.use(
 );
 
 app.use("/api/v1/message", messageRouter);
+app.use("/api/v1/user", userRouter);
+
 connectDB();
 export default app;

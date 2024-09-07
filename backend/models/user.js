@@ -75,9 +75,9 @@ userSchema.methods.comparePassword = async function (enteredPassword) {
 };
 
 // web token at logging time
-userSchema.methods.generateJsonWebToken = async function () {
-  return jwt.sign({ id: this._id }, process.env.JWTSECRET_KEY, {
-    expiresIn: process.env.EXPIRES_IN,
-  });
-};
-export const User = mongoose.model("User", messageSchema);
+// userSchema.methods.generateJsonWebToken = async function () {
+//    return await jwt.sign({ id: this._id }, process.env.JWTSECRET_KEY, {
+//     expiresIn: process.env.EXPIRES_IN,
+//   });
+// };
+export const User = mongoose.model("User", userSchema);
