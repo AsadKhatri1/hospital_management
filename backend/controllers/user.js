@@ -118,12 +118,10 @@ export const addAdmin = catchAsyncError(async (req, res) => {
 
   const isRegistered = await User.findOne({ email });
   if (isRegistered) {
-    return res
-      .status(400)
-      .json({
-        success: false,
-        message: `${isRegistered.role} already exists with this email`,
-      });
+    return res.status(400).json({
+      success: false,
+      message: `${isRegistered.role} already exists with this email`,
+    });
   }
   const admin = await User.create({
     firstName,
@@ -138,3 +136,41 @@ export const addAdmin = catchAsyncError(async (req, res) => {
   });
   generateToken(admin, "Admin registered succesfully", 200, res);
 });
+
+// getting all doctors
+export const getAllDoctors = catchAsyncError(async (req, res) => {
+  const doctors = await User.find({ role: "Doctor" });
+  return res
+    .status(200)
+    .json({ success: true, message: "All doctors", doctors });
+});
+
+// getting loggedin user details
+
+export const userDetails = catchAsyncError(async (req, res) => {
+  const user = req.user;
+  return res.status(200).json({ success: true, user });
+});
+
+// logout admin
+
+export const adminLogout = async (req, res) => {
+  res
+    .status(200)
+    .cookie("adminToken", "", {
+      httpOnly: true,
+      expires: new Date(Date.now()),
+    })
+    .json({ success: true, message: "Admin Logged Out" });
+};
+// logout patient
+
+export const patientLogout = async (req, res) => {
+  res
+    .status(200)
+    .cookie("patientToken", "", {
+      httpOnly: true,
+      expires: new Date(Date.now()),
+    })
+    .json({ success: true, message: "Patient Logged Out" });
+};
